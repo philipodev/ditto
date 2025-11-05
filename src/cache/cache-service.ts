@@ -21,6 +21,7 @@ export class CacheService implements ICacheService {
 		const body = this.requestHandler.decodeBody(
 			storedResponse.body,
 			storedResponse.isBase64,
+			storedResponse.isJson,
 		);
 		
 		return {
@@ -49,6 +50,7 @@ export class CacheService implements ICacheService {
 			headers: this.normalizeHeaders(request.headers),
 			body: requestEncoding.encoded,
 			isBase64: requestEncoding.isBase64,
+			isJson: requestEncoding.isJson,
 		};
 		
 		const responseContentType = typeof response.headers["content-type"] === "string" 
@@ -60,6 +62,7 @@ export class CacheService implements ICacheService {
 			headers: this.normalizeHeaders(response.headers),
 			body: responseEncoding.encoded,
 			isBase64: responseEncoding.isBase64,
+			isJson: responseEncoding.isJson,
 		};
 		
 		await Promise.all([

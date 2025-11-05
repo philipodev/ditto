@@ -2,12 +2,12 @@
 
 import { Command } from "commander";
 import pkg from "../package.json" with { type: "json" };
-import { startServer } from "./server";
-import { startReplayServer } from "./replay-server";
 import { cleanUnused } from "./clean-unused";
+import { startReplayServer } from "./replay-server";
+import { startServer } from "./server";
 
 const program = new Command()
-	.name(pkg.name)
+	.name("ditto")
 	.description(pkg.description)
 	.version(pkg.version);
 
@@ -29,11 +29,7 @@ program
 	.description("Serve only from cache (no proxying)")
 	.option("-p, --port <port>", "port to listen on", "4444")
 	.option("-h, --host <host>", "host to listen on", "0.0.0.0")
-	.option(
-		"-d, --storage-dir <dir>",
-		"storage directory",
-		".ditto/requests",
-	)
+	.option("-d, --storage-dir <dir>", "storage directory", ".ditto/requests")
 	.action((options) => {
 		startReplayServer(options);
 	});
@@ -41,11 +37,7 @@ program
 program
 	.command("clean-last-unused")
 	.description("Remove unused cached requests from last serve session")
-	.option(
-		"-d, --storage-dir <dir>",
-		"storage directory",
-		".ditto/requests",
-	)
+	.option("-d, --storage-dir <dir>", "storage directory", ".ditto/requests")
 	.action((options) => {
 		cleanUnused(options);
 	});

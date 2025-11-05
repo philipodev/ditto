@@ -45,6 +45,7 @@ export class FileStorageService implements IStorageService {
 			headers: parsed.headers,
 			body: parsed.body,
 			isBase64: parsed.isBase64 ?? false,
+			isJson: parsed.isJson ?? false,
 		};
 	}
 
@@ -73,6 +74,7 @@ export class FileStorageService implements IStorageService {
 			headers: response.headers,
 			body: response.body,
 			isBase64: response.isBase64,
+			isJson: response.isJson,
 		};
 		
 		await writeFile(filePath, JSON.stringify(content, null, 2));

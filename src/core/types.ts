@@ -4,15 +4,17 @@ export interface StoredRequest {
 	method: string;
 	url: string;
 	headers: Record<string, string | string[]>;
-	body: string;
+	body: string | object;
 	isBase64: boolean;
+	isJson?: boolean;
 }
 
 export interface StoredResponse {
 	statusCode: number;
 	headers: Record<string, string | string[]>;
-	body: string;
+	body: string | object;
 	isBase64: boolean;
+	isJson?: boolean;
 }
 
 export interface RequestInfo {

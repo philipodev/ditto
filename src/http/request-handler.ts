@@ -54,16 +54,58 @@ export class RequestHandler {
 		return false;
 	}
 
-	encodeBody(buffer: Buffer, contentType?: string): { encoded: string; isBase64: boolean } {
+	isJson(buffer: Buffer, contentType?: string): boolean {
+		if (contentType) {
+			const type = contentType.toLowerCase();
+			if (!type.includes("json")) {
+				return false;
+			}
+		}
+		if (buffer.length === 0) return false;
+		try {
+			const text = buffer.toString("utf-8").trim();
+			if (!text) return false;
+			JSON.parse(text);
+			return true;
+		} catch {
+			return false;
+		}
+	}
+
+	encodeBody(buffer: Buffer, contentType?: string): { encoded: string | object; isBase64: boolean; isJson: boolean } {
 		const isBinary = this.isBinary(buffer, contentType);
+		if (isBinary) {
+			return {
+				encoded: buffer.toString("base64"),
+				isBase64: true,
+				isJson: false,
+			};
+		}
+
+		const isJson = this.isJson(buffer, contentType);
+		if (isJson) {
+			return {
+				encoded: JSON.parse(buffer.toString("utf-8")),
+				isBase64: false,
+				isJson: true,
+			};
+		}
+
 		return {
-			encoded: isBinary ? buffer.toString("base64") : buffer.toString("utf-8"),
-			isBase64: isBinary,
+			encoded: buffer.toString("utf-8"),
+			isBase64: false,
+			isJson: false,
 		};
 	}
 
-	decodeBody(encoded: string, isBase64: boolean): Buffer {
-		return Buffer.from(encoded, isBase64 ? "base64" : "utf-8");
+	decodeBody(encoded: string | object, isBase64: boolean, isJson?: boolean): Buffer {
+		if (isJson && typeof encoded === "object") {
+			return Buffer.from(JSON.stringify(encoded), "utf-8");
+		}
+		if (typeof encoded === "string") {
+			return Buffer.from(encoded, isBase64 ? "base64" : "utf-8");
+		}
+		return Buffer.from(JSON.stringify(encoded), "utf-8");
 	}
 }
 
