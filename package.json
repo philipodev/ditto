@@ -1,0 +1,55 @@
+{
+  "name": "@jongard/ditto",
+  "version": "1.0.0",
+  "description": "A proxy server for recording and replaying HTTP requests",
+  "type": "module",
+  "author": "Philip Jongård",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philipodev/ditto.git"
+  },
+  "homepage": "https://github.com/philipodev/ditto#readme",
+  "bugs": {
+    "url": "https://github.com/philipodev/ditto/issues"
+  },
+  "keywords": [
+    "proxy",
+    "http",
+    "record",
+    "replay",
+    "mock",
+    "cache",
+    "testing",
+    "cli"
+  ],
+  "bin": {
+    "ditto": "./dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.4",
+    "@commander-js/extra-typings": "^14.0.0",
+    "@types/node": "^24.10.0",
+    "tsdown": "^0.16.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.2",
+    "zod": "^4.1.12"
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
