@@ -18,7 +18,7 @@ export async function startServer(inputOptions: unknown): Promise<Server> {
 	const responseHandler = new ResponseHandler();
 	const fingerprintService = new FingerprintService();
 	const cacheService = new CacheService(storage, requestHandler);
-	const proxyClient = new ProxyClient();
+	const proxyClient = new ProxyClient(options.rejectUnauthorized);
 
 	const proxyServer = new ProxyServer(
 		options,

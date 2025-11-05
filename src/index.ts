@@ -20,8 +20,16 @@ program
 		"-P, --proxy <proxy>",
 		"proxy target URL (e.g. http://localhost:3000)",
 	)
+	.option(
+		"--ignore-ssl",
+		"ignore SSL certificate validation (useful for self-signed certificates)",
+	)
 	.action((options) => {
-		startServer(options);
+		const serverOptions = {
+			...options,
+			rejectUnauthorized: !options.ignoreSsl,
+		};
+		startServer(serverOptions);
 	});
 
 program

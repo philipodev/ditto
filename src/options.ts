@@ -6,6 +6,7 @@ const optionsSchema = z.object({
 	host: z.string().default("0.0.0.0"),
 	proxy: z.url(),
 	storageDir: z.string().default(path.join(process.cwd(), ".ditto/requests")),
+	rejectUnauthorized: z.coerce.boolean().default(true),
 });
 
 export type Options = z.infer<typeof optionsSchema>;
